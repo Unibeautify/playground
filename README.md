@@ -1,2 +1,21 @@
-# playground
-Try Unibeautify in your browser!
+# Playground
+
+> Try Unibeautify in your browser!
+
+## Install prerequisites
+
+```
+npm install
+```
+
+## Usage
+
+```
+npm start
+```
+
+### Docker
+
+```
+docker-compose up --build
+```
