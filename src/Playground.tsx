@@ -4,6 +4,8 @@ import Unibeautify, { BeautifyData } from "unibeautify";
 import * as CodeMirror from "react-codemirror";
 import * as _ from "lodash";
 import Form, { FormProps, IChangeEvent } from "react-jsonschema-form";
+import * as LZString from "lz-string";
+import { History } from "history";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
@@ -39,12 +41,34 @@ console.log('Hello World');
           space_after_anon_function: false,
           wrap_line_length: 80
         } as any
-      }
+      },
+      ...this.stateFromUri
     };
     this.beautify = _.throttle(this.beautify.bind(this), 1000, {
       trailing: true
     });
     this.beautify();
+  }
+
+  private get stateFromUri(): object {
+    const hash = this.locationHash;
+    const json = LZString.decompressFromEncodedURIComponent(hash);
+    try {
+      const payload = JSON.parse(json) || {};
+      console.log("loaded state", payload);
+      return payload;
+    } catch (error) {
+      console.error(error);
+      return {};
+    }
+  }
+
+  private get locationHash(): string {
+    return this.history.location.hash.slice(1);
+  }
+
+  private get history(): History {
+    return (this.props as any).history;
   }
 
   public render() {
@@ -111,7 +135,19 @@ console.log('Hello World');
     this.beautify();
   };
 
+  private updateHash(): void {
+    const hash = LZString.compressToEncodedURIComponent(
+      JSON.stringify({
+        languageName: this.state.languageName,
+        options: this.state.options,
+        originalText: this.state.originalText
+      })
+    );
+    this.replaceHash(hash);
+  }
+
   private beautify() {
+    this.updateHash();
     beautify(this.beautifyPayload).then(({ beautifiedText }) => {
       this.setState(prevState => ({
         ...prevState,
@@ -123,17 +159,13 @@ console.log('Hello World');
   private get beautifyPayload(): BeautifyData {
     return {
       languageName: this.state.languageName,
-      options: this.beautifyOptions,
+      options: this.state.options,
       text: this.state.originalText
     };
   }
 
-  private get beautifyOptions(): BeautifyData["options"] {
-    return this.state.options || {};
-  }
-
   private langOptions(languageName: string): BeautifyData["options"][string] {
-    return this.beautifyOptions[languageName] || {};
+    return this.state.options[languageName] || {};
   }
 
   private schemaForLanguage(languageName: string): FormProps["schema"] {
@@ -225,6 +257,10 @@ console.log('Hello World');
         }
       }
     };
+  }
+
+  private replaceHash(hash: string) {
+    this.history.replace(`/#${hash}`);
   }
 }
 
