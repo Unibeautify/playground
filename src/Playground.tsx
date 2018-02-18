@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import Unibeautify, { BeautifyData } from "unibeautify";
+import Unibeautify, { Language, BeautifyData } from "unibeautify";
 import * as CodeMirror from "react-codemirror";
 import * as _ from "lodash";
 import Form, { FormProps, IChangeEvent } from "react-jsonschema-form";
@@ -10,7 +10,7 @@ import { History } from "history";
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
 
-import beautify from "./beautify";
+import ApiClient, { SupportResponse } from "./ApiClient";
 
 export class Playground extends React.Component<
   PlaygroundProps,
@@ -19,6 +19,7 @@ export class Playground extends React.Component<
   constructor(props: any) {
     super(props);
     this.state = {
+      status: PlaygroundStatus.Init,
       languageName: "JavaScript",
       originalText: `function helloWorld() {
 console.log('Hello World');
@@ -42,69 +43,64 @@ console.log('Hello World');
           wrap_line_length: 80
         } as any
       },
-      ...this.stateFromUri
+      ...this.props.defaultState
     };
-    this.beautify = _.throttle(this.beautify.bind(this), 1000, {
+    this.beautify = _.throttle(this.beautify, 1000, {
       trailing: true
     });
+  }
+
+  public componentDidMount() {
+    console.log("componentDidMount");
     this.beautify();
   }
 
-  private get stateFromUri(): object {
-    const hash = this.locationHash;
-    const json = LZString.decompressFromEncodedURIComponent(hash);
-    try {
-      const payload = JSON.parse(json) || {};
-      console.log("loaded state", payload);
-      return payload;
-    } catch (error) {
-      console.error(error);
-      return {};
-    }
-  }
-
-  private get locationHash(): string {
-    return this.history.location.hash.slice(1);
-  }
-
-  private get history(): History {
-    return (this.props as any).history;
+  public componentWillUnmount() {
+    console.log("componentWillUnmount");
   }
 
   public render() {
     const log = (type: string) => console.log.bind(console, type);
+    const { codeMirrorMode } = this;
     const { languageName, originalText, beautifiedText, options } = this.state;
     return (
-      <div className="container-fluid">
-        <div className="jumbotron">
-          <h1 className="display-3 text-center">Unibeautify Playground</h1>
+      <div className="row">
+        <div className="col-sm-2">
+          <Form
+            schema={this.schemaForLanguage(languageName)}
+            formData={this.langOptions(languageName)}
+            onChange={this.onChangeOptions.bind(this)}
+            onSubmit={log("submitted")}
+            onError={log("errors")}
+          />
+        </div>
+        <div className="col-sm-10">
           <div className="row">
-            <div className="col-sm-2">
-              <Form
-                schema={this.schemaForLanguage(languageName)}
-                formData={this.langOptions(languageName)}
-                onChange={this.onChangeOptions}
-                onSubmit={log("submitted")}
-                onError={log("errors")}
-              />
+            <div className="col-sm-6">
+              <div>{this.renderLanguageSelect()}</div>
             </div>
-            <div className="col-sm-5">
+            <div className="col-sm-6">
+              <div>{this.renderStatus()}</div>
+            </div>
+          </div>
+          <div className="row" style={{ height: "100%" }}>
+            <div className="col-sm-6">
               <CodeMirror
                 value={originalText}
-                onChange={this.onChangeText}
+                onChange={this.onChangeText.bind(this)}
                 options={{
                   lineNumbers: true,
-                  mode: "javascript"
+                  mode: codeMirrorMode
                 }}
               />
             </div>
-            <div className="col-sm-5">
+            <div className="col-sm-6">
               <CodeMirror
                 key={beautifiedText}
                 value={beautifiedText}
                 options={{
                   lineNumbers: true,
-                  mode: "javascript"
+                  mode: codeMirrorMode
                 }}
               />
             </div>
@@ -114,7 +110,75 @@ console.log('Hello World');
     );
   }
 
-  private onChangeOptions = (changeEvent: IChangeEvent): void => {
+  private get codeMirrorMode(): string {
+    const { languageName } = this.state;
+    const { support } = this;
+    if (support) {
+      const { languages } = support;
+      const language: Language = languages.find(
+        (lang: Language) => lang.name === languageName
+      );
+      if (language) {
+        return language.aceMode;
+      }
+    }
+    return "javascript";
+  }
+
+  private renderLanguageSelect() {
+    const { languageName, languageNames } = this;
+    return (
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <label className="input-group-text" htmlFor="inputLanguageSelect">
+            Language
+          </label>
+        </div>
+        <select
+          className="custom-select"
+          id="inputLanguageSelect"
+          value={languageName}
+          onChange={this.onChangeLanguage.bind(this)}
+        >
+          {languageNames.map(lang => (
+            <option key={lang} value={lang}>
+              {lang}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+
+  private onChangeLanguage(event: React.ChangeEvent<HTMLSelectElement>) {
+    const newLanguage = (event.target as any).value;
+    this.setState(prevState => ({
+      ...prevState,
+      languageName: newLanguage
+    }));
+  }
+
+  private renderStatus() {
+    return <div className="lead">{this.statusMessage}</div>;
+  }
+
+  private get languageNames(): string[] {
+    return this.supportedLanguages.map(lang => lang.name);
+  }
+
+  private get supportedLanguages(): Language[] {
+    const { support } = this;
+    if (support) {
+      return support.languages;
+    }
+    return [];
+  }
+
+  private get languageName(): string {
+    return this.state.languageName;
+  }
+
+  private onChangeOptions(changeEvent: IChangeEvent): void {
     const { languageName } = this.state;
     const { formData } = changeEvent;
     this.setState(prevState => ({
@@ -125,15 +189,15 @@ console.log('Hello World');
       }
     }));
     this.beautify();
-  };
+  }
 
-  private onChangeText = (newValue: string): void => {
+  private onChangeText(newValue: string): void {
     this.setState(prevState => ({
       ...prevState,
       originalText: newValue
     }));
     this.beautify();
-  };
+  }
 
   private updateHash(): void {
     const hash = LZString.compressToEncodedURIComponent(
@@ -147,13 +211,20 @@ console.log('Hello World');
   }
 
   private beautify() {
+    this.setStatus(PlaygroundStatus.Sending);
     this.updateHash();
-    beautify(this.beautifyPayload).then(({ beautifiedText }) => {
-      this.setState(prevState => ({
-        ...prevState,
-        beautifiedText
-      }));
-    });
+    return this.client
+      .beautify(this.beautifyPayload)
+      .then(({ beautifiedText }) => {
+        this.setState(prevState => ({
+          ...prevState,
+          status: PlaygroundStatus.Beautified,
+          beautifiedText
+        }));
+      })
+      .catch(error => {
+        this.setStatus(PlaygroundStatus.BeautifierError);
+      });
   }
 
   private get beautifyPayload(): BeautifyData {
@@ -162,6 +233,26 @@ console.log('Hello World');
       options: this.state.options,
       text: this.state.originalText
     };
+  }
+
+  private get statusMessage(): string {
+    switch (this.state.status) {
+      case PlaygroundStatus.Init:
+        return "Initializing!";
+      case PlaygroundStatus.Sending:
+        return "Loading...";
+      case PlaygroundStatus.Beautified:
+        return "Beautified!";
+      default:
+        return "Waiting";
+    }
+  }
+
+  private setStatus(newStatus: PlaygroundStatus): void {
+    this.setState(prevState => ({
+      ...prevState,
+      status: newStatus
+    }));
   }
 
   private langOptions(languageName: string): BeautifyData["options"][string] {
@@ -176,15 +267,17 @@ console.log('Hello World');
     return {
       title: `${this.state.languageName} Options`,
       type: "object",
-      //   required: ["title"],
+      required: ["beautifiers", "indent_char", "indent_size"],
       properties: {
         beautifiers: {
           type: "array",
           title: "Beautifiers",
           items: {
             type: "string",
-            default: "Prettier",
-            enum: ["Prettier", "Pretty Diff"]
+            default: this.supportedBeautifiers[0],
+            enum: this.supportedBeautifiers
+            // default: "Prettier",
+            // enum: ["Prettier", "Pretty Diff"]
           }
         },
         align_assignments: {
@@ -259,18 +352,50 @@ console.log('Hello World');
     };
   }
 
+  private get supportedBeautifiers(): string[] {
+    const { support } = this;
+    if (support) {
+      return support.beautifiers.sort();
+    }
+    return [];
+  }
+
+  private get client(): ApiClient {
+    return this.props.client;
+  }
+
+  private get support(): SupportResponse {
+    return this.props.support;
+  }
+
   private replaceHash(hash: string) {
-    this.history.replace(`/#${hash}`);
+    this.props.replaceHash(hash);
   }
 }
 
-interface PlaygroundProps {}
+interface PlaygroundProps {
+  client: ApiClient;
+  support: SupportResponse;
+  defaultState: Partial<PlaygroundState>;
+  replaceHash(hash: string): void;
+}
 
 interface PlaygroundState {
+  status: PlaygroundStatus;
   languageName: string;
   options: {
     [languageName: string]: BeautifyData["options"];
   };
   originalText: string;
   beautifiedText: string;
+}
+
+enum PlaygroundStatus {
+  Init,
+  LoadingSupport,
+  SupportLoaded,
+  BeautifierError,
+  OptionsError,
+  Sending,
+  Beautified
 }
