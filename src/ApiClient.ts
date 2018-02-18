@@ -1,4 +1,4 @@
-import { BeautifyData, Language } from "Unibeautify";
+import { BeautifyData, Language } from "unibeautify";
 
 export default class ApiClient {
   constructor(private apiUrl: string) {}
