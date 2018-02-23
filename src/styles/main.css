@@ -8,11 +8,18 @@ body {
 i.glyphicon {
   display: none;
 }
+.array-item {
+  width: 100%;
+}
 .array-item .col-xs-9, .array-item .col-xs-3 {
   float: left;
 }
 .array-item .col-xs-3 {
   margin-left: 10px;
+  width: 33%;
+}
+.array-item .col-xs-9 {
+  width: 60%;
 }
 .btn-group button {
   border: 1px solid #ccc;
