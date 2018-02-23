@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import Unibeautify, { Language, BeautifyData } from "unibeautify";
+import Unibeautify, {
+  Language,
+  BeautifyData,
+  OptionsRegistry
+} from "unibeautify";
 import * as CodeMirror from "react-codemirror";
 import * as _ from "lodash";
 import Form, { FormProps, IChangeEvent } from "react-jsonschema-form";
@@ -9,15 +13,29 @@ import { History } from "history";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
+require("codemirror/mode/xml/xml");
+require("codemirror/mode/jsx/jsx");
+require("codemirror/mode/css/css");
+require("codemirror/mode/markdown/markdown");
 
-import ApiClient, { SupportResponse } from "./ApiClient";
+import ApiClient, { SupportResponse, LanguageWithOptions } from "./ApiClient";
 
 export class Playground extends React.Component<
   PlaygroundProps,
   PlaygroundState
 > {
-  constructor(props: any) {
+  constructor(props: PlaygroundProps) {
     super(props);
+    const languages: SupportResponse["languages"] = props.support.languages;
+    const options: PlaygroundState["options"] = languages.reduce(
+      (options: object, language: LanguageWithOptions) => ({
+        ...options,
+        [language.name]: {
+          beautifiers: language.beautifiers
+        }
+      }),
+      {}
+    );
     this.state = {
       status: PlaygroundStatus.Init,
       languageName: "JavaScript",
@@ -25,24 +43,7 @@ export class Playground extends React.Component<
 console.log('Hello World');
 }`,
       beautifiedText: "",
-      options: {
-        JavaScript: {
-          beautifiers: ["Pretty Diff", "Prettier"],
-          align_assignments: false,
-          arrow_parens: "as-needed",
-          break_chained_methods: true,
-          end_with_comma: true,
-          end_with_semicolon: true,
-          indent_char: " ",
-          indent_size: 2,
-          jsx_brackets: false,
-          multiline_ternary: true,
-          object_curly_spacing: true,
-          quotes: "double",
-          space_after_anon_function: false,
-          wrap_line_length: 80
-        } as any
-      },
+      options,
       ...this.props.defaultState
     };
     this.beautify = _.throttle(this.beautify, 1000, {
@@ -64,15 +65,17 @@ console.log('Hello World');
     const { codeMirrorMode } = this;
     const { languageName, originalText, beautifiedText, options } = this.state;
     return (
-      <div className="row">
-        <div className="col-sm-2">
+      <div className="row playground">
+        <div className="col-options col-sm-2">
           <Form
-            schema={this.schemaForLanguage(languageName)}
+            schema={this.jsonSchema}
+            uiSchema={this.uiSchema}
             formData={this.langOptions(languageName)}
             onChange={this.onChangeOptions.bind(this)}
-            onSubmit={log("submitted")}
             onError={log("errors")}
-          />
+          >
+            <p />
+          </Form>
         </div>
         <div className="col-sm-10">
           <div className="row">
@@ -111,16 +114,22 @@ console.log('Hello World');
   }
 
   private get codeMirrorMode(): string {
-    const { languageName } = this.state;
-    const { support } = this;
-    if (support) {
-      const { languages } = support;
-      const language: Language = languages.find(
-        (lang: Language) => lang.name === languageName
-      );
-      if (language) {
-        return language.aceMode;
+    const { language } = this;
+    if (language && language.name) {
+      switch (language.name) {
+        case "CSS":
+        case "Less":
+        case "SCSS":
+          return "css";
+        case "Markdown":
+          return "markdown";
+        case "JSX":
+        case "TSX":
+          return "jsx";
+        case "HTML":
+          return "htmlmixed";
       }
+      return language.name.toLowerCase();
     }
     return "javascript";
   }
@@ -259,16 +268,20 @@ console.log('Hello World');
     return this.state.options[languageName] || {};
   }
 
-  private schemaForLanguage(languageName: string): FormProps["schema"] {
-    return this.schema;
-  }
-
-  private get schema(): FormProps["schema"] {
+  private get jsonSchema(): FormProps["schema"] {
+    const { language } = this;
+    const languageOptions: OptionsRegistry = language ? language.options : {};
+    const options = _.mapValues(languageOptions, (option, key) => ({
+      title: this.optionKeyToTitle(key),
+      ...option,
+      description: undefined
+    }));
     return {
       title: `${this.state.languageName} Options`,
       type: "object",
       required: ["beautifiers", "indent_char", "indent_size"],
       properties: {
+        ...options,
         beautifiers: {
           type: "array",
           title: "Beautifiers",
@@ -276,86 +289,44 @@ console.log('Hello World');
             type: "string",
             default: this.supportedBeautifiers[0],
             enum: this.supportedBeautifiers
-            // default: "Prettier",
-            // enum: ["Prettier", "Pretty Diff"]
           }
         },
-        align_assignments: {
-          type: "boolean",
-          title: "Align Assignments",
-          default: false
-        },
-        arrow_parens: {
-          type: "string",
-          title: "Arrow Parens",
-          default: "as-needed",
-          enum: ["as-needed", "always"]
-        },
-        break_chained_methods: {
-          type: "boolean",
-          title: "Break Chained Methods",
-          default: true
-        },
-        end_with_comma: {
-          type: "boolean",
-          title: "End with comma",
-          default: true
-        },
-        end_with_semicolon: {
-          type: "boolean",
-          title: "End with semicolon",
-          default: true
-        },
-        indent_char: {
-          type: "string",
-          title: "Indent Char",
-          default: " ",
-          enum: [" ", "\t"]
-        },
-        indent_size: {
-          type: "integer",
-          title: "Indent Size",
-          default: 2
-        },
-        jsx_brackets: {
-          type: "boolean",
-          title: "JSX Brackets",
-          default: false
-        },
-        multiline_ternary: {
-          type: "boolean",
-          title: "Multiline Ternary",
-          default: true
-        },
-        object_curly_spacing: {
-          type: "boolean",
-          title: "Object curly spacing",
-          default: true
-        },
-        quotes: {
-          type: "string",
-          title: "Quotes",
-          default: "double",
-          enum: ["double", "single"]
-        },
-        space_after_anon_function: {
-          type: "boolean",
-          title: "Space after anonymous function",
-          default: false
-        },
-        wrap_line_length: {
-          type: "integer",
-          title: "Wrap line length",
-          default: 80
-        }
       }
     };
   }
 
-  private get supportedBeautifiers(): string[] {
+  private get uiSchema(): FormProps["schema"] {
+    const { language } = this;
+    const languageOptions: OptionsRegistry = language ? language.options : {};
+    return _.mapValues(languageOptions, (option, key) => ({
+      "ui:help": option.description
+    }));
+  }
+
+  private optionKeyToTitle(key: string): string {
+    return key
+      .split("_")
+      .map(_.capitalize)
+      .join(" ");
+  }
+
+  private get language(): LanguageWithOptions | undefined {
+    const { languageName } = this.state;
     const { support } = this;
     if (support) {
-      return support.beautifiers.sort();
+      const { languages } = support;
+      const language = languages.find(
+        (lang: Language) => lang.name === languageName
+      );
+      return language;
+    }
+    return;
+  }
+
+  private get supportedBeautifiers(): string[] {
+    const { language } = this;
+    if (language) {
+      return language.beautifiers;
     }
     return [];
   }

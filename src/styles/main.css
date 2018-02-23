@@ -1,13 +1,65 @@
-html, body {
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 /* JSON Schema Form */
-i.glyphicon { display: none; }
-.btn-add::after { content: 'Add'; }
-.array-item-move-up::after { content: 'Move Up'; }
-.array-item-move-down::after { content: 'Move Down'; }
-.array-item-remove::after { content: 'Remove'; }
+i.glyphicon {
+  display: none;
+}
+.btn-add::after {
+  content: "Add";
+}
+.array-item-move-up::after {
+  content: "Move Up";
+}
+.array-item-move-down::after {
+  content: "Move Down";
+}
+.array-item-remove::after {
+  content: "Remove";
+}
 
 /* Code Mirror */
-.CodeMirror { height: 100%; }
+.CodeMirror {
+  height: 100%;
+}
+
+/* Options Form */
+form .form-group label {
+  font-weight: bold;
+}
+form .form-group label input[type="checkbox"] {
+  margin-right: 4px;
+}
+
+.playground {
+  height: auto;
+  position: fixed;
+  top: 80px;
+  left: 15px;
+  right: 0;
+  bottom: 0px;
+}
+
+.col-options {
+  overflow-y: scroll;
+}
+
+.form-group.field-array .row {
+  margin-left: 0px;
+}
+
+.form-group.field-array legend {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.ReactCodeMirror {
+  height: 100%;
+}
+
+.nav-item .btn {
+  margin-right: 0.5rem;
+}

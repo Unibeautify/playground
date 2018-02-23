@@ -1,4 +1,4 @@
-import { BeautifyData, Language } from "unibeautify";
+import { BeautifyData, Language, OptionsRegistry } from "unibeautify";
 
 export default class ApiClient {
   constructor(private apiUrl: string) {}
@@ -29,5 +29,10 @@ export interface BeautifyResponse extends BeautifyData {
 
 export interface SupportResponse {
   beautifiers: string[];
-  languages: Language[];
+  languages: LanguageWithOptions[];
+}
+
+export interface LanguageWithOptions extends Language {
+  options: OptionsRegistry;
+  beautifiers: string[];
 }

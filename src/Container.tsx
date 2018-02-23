@@ -6,9 +6,11 @@ import * as _ from "lodash";
 import Form, { FormProps, IChangeEvent } from "react-jsonschema-form";
 import * as LZString from "lz-string";
 import { History } from "history";
+import * as GitHubButton from "react-github-button";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
+require("react-github-button/assets/style.css");
 
 import ApiClient, { SupportResponse } from "./ApiClient";
 import { Playground } from "./Playground";
@@ -72,17 +74,64 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
 
   public render() {
     return (
-      <div className="container-fluid">
-        <div className="">
-          <h1 className="display-3 text-center">Unibeautify Playground</h1>
-          {this.renderBody()}
-        </div>
+      <div>
+        {this.renderNav()}
+        <div className="container-fluid">{this.renderBody()}</div>
       </div>
     );
   }
 
-  public renderBody() {
-    if (!this.hasSupport) {
+  private renderNav() {
+    return (
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <a className="navbar-brand" href="#">
+          Unibeautify Playground
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <button
+                className="btn btn-outline-primary my-2 my-sm-0"
+                type="submit"
+              >
+                Copy Link
+              </button>
+            </li>
+            <li className="nav-item">
+              <button
+                className="btn btn-outline-danger my-2 my-sm-0"
+                type="submit"
+              >
+                Report Issue
+              </button>
+            </li>
+          </ul>
+          <form className="form-inline my-2 my-lg-0">
+            <GitHubButton
+              type="stargazers"
+              size="large"
+              namespace="unibeautify"
+              repo="unibeautify"
+            />
+          </form>
+        </div>
+      </nav>
+    );
+  }
+
+  private renderBody() {
+    if (!this.state.support) {
       return <div className="">Loading...</div>;
     }
 
@@ -94,10 +143,6 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
         replaceHash={this.replaceHash}
       />
     );
-  }
-
-  private get hasSupport(): boolean {
-    return Boolean(this.state.support);
   }
 
   private setStatus(newStatus: ContainerStatus): void {
