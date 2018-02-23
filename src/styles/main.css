@@ -8,17 +8,40 @@ body {
 i.glyphicon {
   display: none;
 }
-.btn-add::after {
-  content: "Add";
+.array-item {
+  width: 100%;
 }
-.array-item-move-up::after {
-  content: "Move Up";
+.array-item .col-xs-9, .array-item .col-xs-3 {
+  float: left;
 }
-.array-item-move-down::after {
-  content: "Move Down";
+.array-item .col-xs-3 {
+  margin-left: 10px;
+  width: 33%;
 }
-.array-item-remove::after {
-  content: "Remove";
+.array-item .col-xs-9 {
+  width: 60%;
+}
+.btn-group button {
+  border: 1px solid #ccc;
+}
+.array-item-move-up i, .array-item-move-down i, .array-item-remove i, .btn-add i {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 1.1em;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+.array-item-move-up i::before {
+  content: "\F062";
+}
+.array-item-move-down i::before {
+  content: "\F063";
+}
+.array-item-remove i::before {
+  content: "\F00D";
+}
+.btn-add i::before {
+  content: "\F067";
 }
 
 /* Code Mirror */

@@ -66,7 +66,7 @@ console.log('Hello World');
     const { languageName, originalText, beautifiedText, options } = this.state;
     return (
       <div className="row playground">
-        <div className="col-options col-sm-2">
+        <div className="col-options col-sm-3">
           <Form
             schema={this.jsonSchema}
             uiSchema={this.uiSchema}
@@ -77,7 +77,7 @@ console.log('Hello World');
             <p />
           </Form>
         </div>
-        <div className="col-sm-10">
+        <div className="col-sm-9">
           <div className="row">
             <div className="col-sm-6">
               <div>{this.renderLanguageSelect()}</div>
