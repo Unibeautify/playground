@@ -281,7 +281,6 @@ console.log('Hello World');
       type: "object",
       required: ["beautifiers", "indent_char", "indent_size"],
       properties: {
-        ...options,
         beautifiers: {
           type: "array",
           title: "Beautifiers",
@@ -291,6 +290,7 @@ console.log('Hello World');
             enum: this.supportedBeautifiers
           }
         },
+        ...options
       }
     };
   }
