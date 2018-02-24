@@ -1,5 +1,7 @@
 # Playground
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Unibeautify/playground.svg)](https://greenkeeper.io/)
+
 > Try Unibeautify in your browser!
 
 ## Install prerequisites
