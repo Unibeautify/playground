@@ -115,23 +115,7 @@ console.log('Hello World');
 
   private get codeMirrorMode(): string {
     const { language } = this;
-    if (language && language.name) {
-      switch (language.name) {
-        case "CSS":
-        case "Less":
-        case "SCSS":
-          return "css";
-        case "Markdown":
-          return "markdown";
-        case "JSX":
-        case "TSX":
-          return "jsx";
-        case "HTML":
-          return "htmlmixed";
-      }
-      return language.name.toLowerCase();
-    }
-    return "javascript";
+    return (language && language.codeMirrorMimeType) || "javascript";
   }
 
   private renderLanguageSelect() {
