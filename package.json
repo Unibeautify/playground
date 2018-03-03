@@ -19,7 +19,7 @@
     "react-dom": "^16.2.0",
     "react-github-button": "^0.1.11",
     "react-jsonschema-form": "^1.0.1",
-    "unibeautify": "^0.9.3",
+    "unibeautify": "^0.10.0",
     "uninstall": "0.0.0"
   },
   "devDependencies": {
