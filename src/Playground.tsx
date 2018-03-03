@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Unibeautify, {
   Language,
   BeautifyData,
-  OptionsRegistry
+  OptionsRegistry,
 } from "unibeautify";
 import * as CodeMirror from "react-codemirror";
 import * as _ from "lodash";
@@ -31,8 +31,8 @@ export class Playground extends React.Component<
       (options: object, language: LanguageWithOptions) => ({
         ...options,
         [language.name]: {
-          beautifiers: language.beautifiers
-        }
+          beautifiers: language.beautifiers,
+        },
       }),
       {}
     );
@@ -44,10 +44,10 @@ console.log('Hello World');
 }`,
       beautifiedText: "",
       options,
-      ...this.props.defaultState
+      ...this.props.defaultState,
     };
     this.beautify = _.throttle(this.beautify, 1000, {
-      trailing: true
+      trailing: true,
     });
   }
 
@@ -93,7 +93,7 @@ console.log('Hello World');
                 onChange={this.onChangeText.bind(this)}
                 options={{
                   lineNumbers: true,
-                  mode: codeMirrorMode
+                  mode: codeMirrorMode,
                 }}
               />
             </div>
@@ -103,7 +103,7 @@ console.log('Hello World');
                 value={beautifiedText}
                 options={{
                   lineNumbers: true,
-                  mode: codeMirrorMode
+                  mode: codeMirrorMode,
                 }}
               />
             </div>
@@ -147,7 +147,7 @@ console.log('Hello World');
     const newLanguage = (event.target as any).value;
     this.setState(prevState => ({
       ...prevState,
-      languageName: newLanguage
+      languageName: newLanguage,
     }));
   }
 
@@ -178,8 +178,8 @@ console.log('Hello World');
       ...prevState,
       options: {
         ...prevState.options,
-        [languageName]: formData
-      }
+        [languageName]: formData,
+      },
     }));
     this.beautify();
   }
@@ -187,7 +187,7 @@ console.log('Hello World');
   private onChangeText(newValue: string): void {
     this.setState(prevState => ({
       ...prevState,
-      originalText: newValue
+      originalText: newValue,
     }));
     this.beautify();
   }
@@ -197,7 +197,7 @@ console.log('Hello World');
       JSON.stringify({
         languageName: this.state.languageName,
         options: this.state.options,
-        originalText: this.state.originalText
+        originalText: this.state.originalText,
       })
     );
     this.replaceHash(hash);
@@ -212,7 +212,7 @@ console.log('Hello World');
         this.setState(prevState => ({
           ...prevState,
           status: PlaygroundStatus.Beautified,
-          beautifiedText
+          beautifiedText,
         }));
       })
       .catch(error => {
@@ -224,7 +224,7 @@ console.log('Hello World');
     return {
       languageName: this.state.languageName,
       options: this.state.options,
-      text: this.state.originalText
+      text: this.state.originalText,
     };
   }
 
@@ -244,7 +244,7 @@ console.log('Hello World');
   private setStatus(newStatus: PlaygroundStatus): void {
     this.setState(prevState => ({
       ...prevState,
-      status: newStatus
+      status: newStatus,
     }));
   }
 
@@ -258,7 +258,7 @@ console.log('Hello World');
     const options = _.mapValues(languageOptions, (option, key) => ({
       title: this.optionKeyToTitle(key),
       ...option,
-      description: undefined
+      description: undefined,
     }));
     return {
       title: `${this.state.languageName} Options`,
@@ -271,11 +271,11 @@ console.log('Hello World');
           items: {
             type: "string",
             default: this.supportedBeautifiers[0],
-            enum: this.supportedBeautifiers
-          }
+            enum: this.supportedBeautifiers,
+          },
         },
-        ...options
-      }
+        ...options,
+      },
     };
   }
 
@@ -283,7 +283,7 @@ console.log('Hello World');
     const { language } = this;
     const languageOptions: OptionsRegistry = language ? language.options : {};
     return _.mapValues(languageOptions, (option, key) => ({
-      "ui:help": option.description
+      "ui:help": option.description,
     }));
   }
 
@@ -352,5 +352,5 @@ enum PlaygroundStatus {
   BeautifierError,
   OptionsError,
   Sending,
-  Beautified
+  Beautified,
 }
