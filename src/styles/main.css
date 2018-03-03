@@ -1,58 +1,75 @@
-html,
-body {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+body,
+html {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 /* JSON Schema Form */
+
 i.glyphicon {
   display: none;
 }
+
 .array-item {
   width: 100%;
 }
-.array-item .col-xs-9, .array-item .col-xs-3 {
+
+.array-item .col-xs-3,
+.array-item .col-xs-9 {
   float: left;
 }
+
 .array-item .col-xs-3 {
   margin-left: 10px;
   width: 33%;
 }
+
 .array-item .col-xs-9 {
   width: 60%;
 }
+
 .btn-group button {
   border: 1px solid #ccc;
 }
-.array-item-move-up i, .array-item-move-down i, .array-item-remove i, .btn-add i {
+
+.array-item-move-down i,
+.array-item-move-up i,
+.array-item-remove i,
+.btn-add i {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: 1.1em;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
 }
+
 .array-item-move-up i::before {
   content: "\F062";
 }
+
 .array-item-move-down i::before {
   content: "\F063";
 }
+
 .array-item-remove i::before {
   content: "\F00D";
 }
+
 .btn-add i::before {
   content: "\F067";
 }
 
 /* Code Mirror */
+
 .CodeMirror {
   height: 100%;
 }
 
 /* Options Form */
+
 form .form-group label {
   font-weight: bold;
 }
+
 form .form-group label input[type="checkbox"] {
   margin-right: 4px;
 }
@@ -63,7 +80,7 @@ form .form-group label input[type="checkbox"] {
   top: 80px;
   left: 15px;
   right: 0;
-  bottom: 0px;
+  bottom: 0;
 }
 
 .col-options {
@@ -71,7 +88,7 @@ form .form-group label input[type="checkbox"] {
 }
 
 .form-group.field-array .row {
-  margin-left: 0px;
+  margin-left: 0;
 }
 
 .form-group.field-array legend {

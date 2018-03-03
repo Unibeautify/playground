@@ -16,9 +16,9 @@ export default class ApiClient {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      redirect: "follow"
+      redirect: "follow",
     }).then(res => res.json());
   }
 }

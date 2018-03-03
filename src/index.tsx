@@ -18,8 +18,7 @@ if (module.hot) {
     ReactDOM.render(
       <AppContainer>
         <NextApp />
-      </AppContainer>
-      ,
+      </AppContainer>,
       rootEl
     );
   });

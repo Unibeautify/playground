@@ -27,7 +27,7 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
     this.client = new ApiClient(apiUrl);
     this.state = {
       status: ContainerStatus.Init,
-      support: undefined
+      support: undefined,
     };
   }
 
@@ -67,7 +67,7 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
       this.setState(prevState => ({
         ...prevState,
         status: ContainerStatus.SupportLoaded,
-        support
+        support,
       }));
     });
   }
@@ -148,7 +148,7 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
   private setStatus(newStatus: ContainerStatus): void {
     this.setState(prevState => ({
       ...prevState,
-      status: newStatus
+      status: newStatus,
     }));
   }
 
@@ -171,5 +171,5 @@ enum ContainerStatus {
   BeautifierError,
   OptionsError,
   Sending,
-  Beautified
+  Beautified,
 }
