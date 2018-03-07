@@ -56,7 +56,7 @@
     "webpack-dev-server": "^3.1.0"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode production",
     "start": "webpack-dev-server",
     "static": "static -at 0.0.0.0 dist",
     "test": "echo \"Error: no test specified\" && exit 1"

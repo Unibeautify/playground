@@ -37,13 +37,18 @@ module.exports = {
         rules: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
             {
-                test: /\.tsx?$/,
-                loaders: [
-                    "babel-loader",
-                    "awesome-typescript-loader"
-                ],
-                exclude: path.resolve(__dirname, 'node_modules'),
-                include: path.resolve(__dirname, "src"),
+              test: /\.tsx?$/,
+              use: [
+                {
+                  loader: "babel-loader",
+                  options: {
+                    plugins: ["react-hot-loader/babel"],
+                  },
+                },
+                "awesome-typescript-loader",
+              ],
+              exclude: path.resolve(__dirname, 'node_modules'),
+              include: path.resolve(__dirname, "src"),
             },
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             // {
@@ -57,12 +62,12 @@ module.exports = {
             {
                 enforce: "pre",
                 test: /\.js$/,
-                loader: "source-map-loader",
+                use: ["source-map-loader"],
                 exclude: path.resolve(__dirname, 'node_modules'),
             },
             {
                 test: /\.css$/,
-                loaders: [ 'style-loader', 'css-loader' ]
+                use: [ 'style-loader', 'css-loader' ],
             },
             {
               test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
