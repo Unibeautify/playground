@@ -2,7 +2,6 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import Unibeautify, { Language, BeautifyData } from "unibeautify";
 import * as CodeMirror from "react-codemirror";
-import * as _ from "lodash";
 import Form, { FormProps, IChangeEvent } from "react-jsonschema-form";
 import * as LZString from "lz-string";
 import { History } from "history";

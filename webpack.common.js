@@ -6,16 +6,12 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const outputDir = "build";
 module.exports = {
     entry: [
-        "bootstrap-loader",
         "./src/index.tsx",
     ],
     output: {
         path: path.join(__dirname, outputDir),
         filename: "bundle.js",
     },
-
-    // Enable sourcemaps for debugging webpack's output.
-    devtool: "source-map",
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
@@ -24,7 +20,6 @@ module.exports = {
 
     plugins: [
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             title: 'Unibeautify Playground',
             chunksSortMode: 'dependency',
@@ -35,7 +30,6 @@ module.exports = {
 
     module: {
         rules: [
-            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
             {
               test: /\.tsx?$/,
               use: [
@@ -50,15 +44,6 @@ module.exports = {
               exclude: path.resolve(__dirname, 'node_modules'),
               include: path.resolve(__dirname, "src"),
             },
-            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            // {
-            //     test: /\.js$/,
-            //     loader: 'babel-loader',
-            //     // exclude: path.resolve(__dirname, 'node_modules'),
-            //     query: {
-            //         presets: ['es2015'],
-            //     }
-            // },
             {
                 enforce: "pre",
                 test: /\.js$/,
@@ -80,10 +65,5 @@ module.exports = {
               }]
             }
         ]
-    },
-
-    devServer: {
-        hot: true
     }
-
 };
