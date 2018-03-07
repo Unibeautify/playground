@@ -63,12 +63,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Unibeautify/assistant.git"
+    "url": "git+https://github.com/Unibeautify/playground.git"
   },
   "author": "Glavin Wiechert",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Unibeautify/assistant/issues"
+    "url": "https://github.com/Unibeautify/playground/issues"
   },
-  "homepage": "https://github.com/Unibeautify/assistant#readme"
+  "homepage": "https://github.com/Unibeautify/playground#readme"
 }
