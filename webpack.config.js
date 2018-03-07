@@ -6,7 +6,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const outputDir = "build";
 module.exports = {
     entry: [
-        "react-hot-loader/patch",
         "bootstrap-loader",
         "./src/index.tsx",
     ],
@@ -35,12 +34,12 @@ module.exports = {
     ],
 
     module: {
-        loaders: [
+        rules: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
             {
                 test: /\.tsx?$/,
                 loaders: [
-                    "react-hot-loader/webpack",
+                    "babel-loader",
                     "awesome-typescript-loader"
                 ],
                 exclude: path.resolve(__dirname, 'node_modules'),
