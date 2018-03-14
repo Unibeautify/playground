@@ -7,7 +7,7 @@ import Unibeautify, {
 } from "unibeautify";
 import * as CodeMirror from "react-codemirror";
 import * as _ from "lodash";
-import Form, { FormProps, IChangeEvent } from "react-jsonschema-form";
+import Form, { FormProps, IChangeEvent, UiSchema } from "react-jsonschema-form";
 import * as LZString from "lz-string";
 import { History } from "history";
 
@@ -263,7 +263,7 @@ console.log('Hello World');
     return {
       title: `${this.state.languageName} Options`,
       type: "object",
-      required: ["beautifiers", "indent_char", "indent_size"],
+      required: ["beautifiers", "indent_style", "indent_size"],
       properties: {
         beautifiers: {
           type: "array",
@@ -279,12 +279,18 @@ console.log('Hello World');
     };
   }
 
-  private get uiSchema(): FormProps["schema"] {
+  private get uiSchema(): FormProps["uiSchema"] {
     const { language } = this;
     const languageOptions: OptionsRegistry = language ? language.options : {};
-    return _.mapValues(languageOptions, (option, key) => ({
-      "ui:help": option.description,
-    }));
+    return _.mapValues(languageOptions, (option, key) => {
+      const ui: UiSchema = {
+        "ui:help": option.description,
+      };
+      if (option.type === "integer") {
+        ui["ui:widget"] = "updown";
+      }
+      return ui;
+    });
   }
 
   private optionKeyToTitle(key: string): string {
