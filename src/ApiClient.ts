@@ -11,10 +11,10 @@ export default class ApiClient {
     return this.fetch<SupportResponse>("support");
   }
 
-  private fetch<T>(path: string = "", payload: object = {}): Promise<T> {
+  private fetch<T>(path: string = "", payload?: object): Promise<T> {
     return fetch(`${this.apiUrl}/${path}`, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: payload && JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
       },
