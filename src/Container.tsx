@@ -14,7 +14,7 @@ require("react-github-button/assets/style.css");
 import ApiClient, { SupportResponse } from "./ApiClient";
 import { Playground } from "./Playground";
 
-const apiUrl: string = "http://ntd6xp2n56.execute-api.us-east-1.amazonaws.com/dev/playground";
+const apiUrl: string = "https://ntd6xp2n56.execute-api.us-east-1.amazonaws.com/dev/playground";
 
 (window as any).Unibeautify = Unibeautify;
 
