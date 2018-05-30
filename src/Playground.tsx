@@ -24,6 +24,8 @@ export class Playground extends React.Component<
   PlaygroundProps,
   PlaygroundState
 > {
+  private throttleDelay: number = 5000;
+
   constructor(props: PlaygroundProps) {
     super(props);
     const languages: SupportResponse["languages"] = props.support.languages;
@@ -46,14 +48,14 @@ console.log('Hello World');
       options,
       ...this.props.defaultState,
     };
-    this.beautify = _.throttle(this.beautify, 1000, {
+    this.beautify = _.throttle(this.beautify, this.throttleDelay, {
       trailing: true,
     });
   }
 
   public componentDidMount() {
     console.log("componentDidMount");
-    this.beautify();
+    this.requestBeautify();
   }
 
   public componentWillUnmount() {
@@ -181,7 +183,7 @@ console.log('Hello World');
         [languageName]: formData,
       },
     }));
-    this.beautify();
+    this.requestBeautify();
   }
 
   private onChangeText(newValue: string): void {
@@ -189,7 +191,7 @@ console.log('Hello World');
       ...prevState,
       originalText: newValue,
     }));
-    this.beautify();
+    this.requestBeautify();
   }
 
   private updateHash(): void {
@@ -201,6 +203,11 @@ console.log('Hello World');
       })
     );
     this.replaceHash(hash);
+  }
+
+  private requestBeautify() {
+    this.setStatus(PlaygroundStatus.BeautifyRequested);
+    this.beautify();
   }
 
   private beautify() {
@@ -236,6 +243,8 @@ console.log('Hello World');
         return "Loading...";
       case PlaygroundStatus.Beautified:
         return "Beautified!";
+      case PlaygroundStatus.BeautifyRequested:
+        return `Waiting for a pause (~${this.throttleDelay / 1000} seconds)...`;
       default:
         return "Waiting";
     }
@@ -357,6 +366,7 @@ enum PlaygroundStatus {
   SupportLoaded,
   BeautifierError,
   OptionsError,
+  BeautifyRequested,
   Sending,
   Beautified,
 }
