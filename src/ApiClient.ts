@@ -23,7 +23,8 @@ export default class ApiClient {
   }
 }
 
-export interface BeautifyResponse extends BeautifyData {
+export interface BeautifyResponse {
+  error?: string;
   beautifiedText: string;
 }
 
