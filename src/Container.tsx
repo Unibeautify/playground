@@ -104,7 +104,11 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
               <button
                 className="btn btn-outline-primary my-2 my-sm-0"
                 type="submit"
-                onClick={() => alert("Not yet implemented. Please go to https://github.com/Unibeautify/playground/issues/3 for details.")}
+                onClick={() =>
+                  alert(
+                    "Not yet implemented. Please go to https://github.com/Unibeautify/playground/issues/3 for details."
+                  )
+                }
               >
                 Copy Link
               </button>
@@ -113,7 +117,11 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
               <button
                 className="btn btn-outline-danger my-2 my-sm-0"
                 type="submit"
-                onClick={() => alert("Not yet implemented. Please go to https://github.com/Unibeautify/playground/issues/4 for details.")}
+                onClick={() =>
+                  alert(
+                    "Not yet implemented. Please go to https://github.com/Unibeautify/playground/issues/4 for details."
+                  )
+                }
               >
                 Report Issue
               </button>
