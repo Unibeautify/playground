@@ -17,6 +17,7 @@ require("codemirror/mode/xml/xml");
 require("codemirror/mode/jsx/jsx");
 require("codemirror/mode/css/css");
 require("codemirror/mode/markdown/markdown");
+require("codemirror/mode/php/php");
 
 import ApiClient, { SupportResponse, LanguageWithOptions } from "./ApiClient";
 
