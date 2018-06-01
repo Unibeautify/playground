@@ -14,7 +14,8 @@ require("react-github-button/assets/style.css");
 import ApiClient, { SupportResponse } from "./ApiClient";
 import { Playground } from "./Playground";
 
-const apiUrl: string = "https://unibeautify-playground-eijdodv3e08v.runkit.sh";
+const apiUrl: string =
+  "https://ntd6xp2n56.execute-api.us-east-1.amazonaws.com/dev/playground";
 
 (window as any).Unibeautify = Unibeautify;
 
@@ -103,6 +104,11 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
               <button
                 className="btn btn-outline-primary my-2 my-sm-0"
                 type="submit"
+                onClick={() =>
+                  alert(
+                    "Not yet implemented. Please go to https://github.com/Unibeautify/playground/issues/3 for details."
+                  )
+                }
               >
                 Copy Link
               </button>
@@ -111,6 +117,11 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
               <button
                 className="btn btn-outline-danger my-2 my-sm-0"
                 type="submit"
+                onClick={() =>
+                  alert(
+                    "Not yet implemented. Please go to https://github.com/Unibeautify/playground/issues/4 for details."
+                  )
+                }
               >
                 Report Issue
               </button>
