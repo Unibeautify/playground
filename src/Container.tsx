@@ -6,6 +6,7 @@ import Form, { FormProps, IChangeEvent } from "react-jsonschema-form";
 import * as LZString from "lz-string";
 import { History } from "history";
 import * as GitHubButton from "react-github-button";
+import * as CopyToClipboard from "react-copy-to-clipboard";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
@@ -101,17 +102,14 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <button
-                className="btn btn-outline-primary my-2 my-sm-0"
-                type="submit"
-                onClick={() =>
-                  alert(
-                    "Not yet implemented. Please go to https://github.com/Unibeautify/playground/issues/3 for details."
-                  )
-                }
-              >
-                Copy Link
-              </button>
+              <CopyToClipboard text={window.location.href}>
+                <button
+                  className="btn btn-outline-primary my-2 my-sm-0"
+                  type="submit"
+                >
+                  Copy Link
+                </button>
+              </CopyToClipboard>
             </li>
             <li className="nav-item">
               <button
