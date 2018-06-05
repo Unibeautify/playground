@@ -17,18 +17,18 @@ export default class ApiClient {
     trackEvent({
       action: "beautify",
       category: languageName,
-      label: eventLabel
+      label: eventLabel,
     });
     return trackPromise({
       name: "beautify",
       category: languageName,
-      label: eventLabel
+      label: eventLabel,
     })(this.fetch<BeautifyResponse>("beautify", payload));
   }
 
   public support(): Promise<SupportResponse> {
     return trackPromise({
-      name: "support"
+      name: "support",
     })(this.fetch<SupportResponse>("support"));
   }
 
@@ -37,9 +37,9 @@ export default class ApiClient {
       method: "POST",
       body: payload && JSON.stringify(payload),
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      redirect: "follow"
+      redirect: "follow",
     }).then(res => res.json());
   }
 }
