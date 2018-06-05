@@ -1,14 +1,35 @@
 import { BeautifyData, Language, OptionsRegistry } from "unibeautify";
+import { get } from "lodash";
+
+import { trackEvent, trackPromise } from "./GoogleAnalytics";
 
 export default class ApiClient {
   constructor(private apiUrl: string) {}
 
   public beautify(payload: BeautifyData): Promise<BeautifyResponse> {
-    return this.fetch<BeautifyResponse>("beautify", payload);
+    const { languageName } = payload;
+    const beautifiers: string[] = get(
+      payload.options,
+      [languageName || "", "beautifiers"],
+      []
+    );
+    const eventLabel = beautifiers.join(",");
+    trackEvent({
+      action: "beautify",
+      category: languageName,
+      label: eventLabel,
+    });
+    return trackPromise({
+      name: "beautify",
+      category: languageName,
+      label: eventLabel,
+    })(this.fetch<BeautifyResponse>("beautify", payload));
   }
 
   public support(): Promise<SupportResponse> {
-    return this.fetch<SupportResponse>("support");
+    return trackPromise({
+      name: "support",
+    })(this.fetch<SupportResponse>("support"));
   }
 
   private fetch<T>(path: string = "", payload?: object): Promise<T> {
