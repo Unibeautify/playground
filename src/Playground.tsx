@@ -20,6 +20,7 @@ require("codemirror/mode/markdown/markdown");
 require("codemirror/mode/php/php");
 
 import ApiClient, { SupportResponse, LanguageWithOptions } from "./ApiClient";
+import { JSONSchema6 } from "json-schema";
 
 export class Playground extends React.Component<
   PlaygroundProps,
@@ -262,7 +263,7 @@ console.log('Hello World');
     return this.state.options[languageName] || {};
   }
 
-  private get jsonSchema(): FormProps["schema"] {
+  private get jsonSchema(): JSONSchema6 {
     const { language } = this;
     const languageOptions: OptionsRegistry = language ? language.options : {};
     const options = _.mapValues(languageOptions, (option, key) => ({
@@ -289,7 +290,7 @@ console.log('Hello World');
     };
   }
 
-  private get uiSchema(): FormProps["uiSchema"] {
+  private get uiSchema(): UiSchema {
     const { language } = this;
     const languageOptions: OptionsRegistry = language ? language.options : {};
     return _.mapValues(languageOptions, (option, key) => {
