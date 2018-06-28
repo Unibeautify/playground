@@ -26,11 +26,12 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
   constructor(props: any) {
     super(props);
     this.client = new ApiClient(apiUrl);
-    this.state = {
-      status: ContainerStatus.Init,
-      support: undefined,
-    };
   }
+
+  state: ContainerState = {
+    status: ContainerStatus.Init,
+    support: undefined,
+  };
 
   private get stateFromUri(): object {
     const hash = this.locationHash;
