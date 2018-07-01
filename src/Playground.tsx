@@ -49,13 +49,13 @@ export class Playground extends React.Component<
         }),
         {} as any
       ),
-    status: PlaygroundStatus.Init,
-    languageName: "JavaScript",
-    originalText: `function helloWorld() {
+      status: PlaygroundStatus.Init,
+      languageName: "JavaScript",
+      originalText: `function helloWorld() {
 console.log('Hello World');
 }`,
-    beautifiedText: "",
-    }
+      beautifiedText: "",
+    };
   }
 
   public componentDidMount() {
