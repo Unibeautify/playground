@@ -27,35 +27,36 @@ export class Playground extends React.Component<
   PlaygroundState
 > {
   private throttleDelay: number = 5000;
-  private options: PlaygroundState["options"];
 
   constructor(props: PlaygroundProps) {
     super(props);
-    const languages: SupportResponse["languages"] = props.support.languages;
-    this.options = languages.reduce(
-      (options: object, language: LanguageWithOptions) => ({
-        ...options,
-        [language.name]: {
-          beautifiers: language.beautifiers,
-        },
-      }),
-      {}
-    );
     this.beautify = _.throttle(this.beautify, this.throttleDelay, {
       trailing: true,
     });
   }
 
-  state = {
+  state = this.initState(this.props);
+
+  private initState(props: PlaygroundProps) {
+    return {
+      languages: props.support.languages,
+      options: props.support.languages.reduce(
+        (options: object, language: LanguageWithOptions) => ({
+          ...options,
+          [language.name]: {
+            beautifiers: language.beautifiers,
+          },
+        }),
+        {} as any
+      ),
     status: PlaygroundStatus.Init,
     languageName: "JavaScript",
     originalText: `function helloWorld() {
 console.log('Hello World');
 }`,
     beautifiedText: "",
-    options: this.options,
-    ...this.props.defaultState,
-  };
+    }
+  }
 
   public componentDidMount() {
     console.log("componentDidMount");
