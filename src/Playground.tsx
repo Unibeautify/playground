@@ -30,29 +30,32 @@ export class Playground extends React.Component<
 
   constructor(props: PlaygroundProps) {
     super(props);
-    const languages: SupportResponse["languages"] = props.support.languages;
-    const options: PlaygroundState["options"] = languages.reduce(
-      (options: object, language: LanguageWithOptions) => ({
-        ...options,
-        [language.name]: {
-          beautifiers: language.beautifiers,
-        },
-      }),
-      {}
-    );
-    this.state = {
+    this.beautify = _.throttle(this.beautify, this.throttleDelay, {
+      trailing: true,
+    });
+  }
+
+  state = this.initState(this.props);
+
+  private initState(props: PlaygroundProps) {
+    return {
+      languages: props.support.languages,
+      options: props.support.languages.reduce(
+        (options: object, language: LanguageWithOptions) => ({
+          ...options,
+          [language.name]: {
+            beautifiers: language.beautifiers,
+          },
+        }),
+        {} as any
+      ),
       status: PlaygroundStatus.Init,
       languageName: "JavaScript",
       originalText: `function helloWorld() {
 console.log('Hello World');
 }`,
       beautifiedText: "",
-      options,
-      ...this.props.defaultState,
     };
-    this.beautify = _.throttle(this.beautify, this.throttleDelay, {
-      trailing: true,
-    });
   }
 
   public componentDidMount() {
