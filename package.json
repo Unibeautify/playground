@@ -33,7 +33,7 @@
     "bootstrap": "4.1.1",
     "bootstrap-loader": "3.0.0",
     "clean-webpack-plugin": "0.1.19",
-    "css-loader": "0.28.11",
+    "css-loader": "1.0.0",
     "file-loader": "1.1.11",
     "postcss-loader": "2.1.5",
     "react-hot-loader": "4.3.3",
