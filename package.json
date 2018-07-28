@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@types/history": "4.6.2",
-    "@types/lodash": "4.14.114",
+    "@types/lodash": "4.14.115",
     "@types/lz-string": "1.3.32",
     "@types/react": "16.4.7",
     "@types/react-codemirror": "1.0.1",
