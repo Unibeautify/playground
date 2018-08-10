@@ -16,7 +16,7 @@
     "react-dom": "^16.4.0",
     "react-github-button": "^0.1.11",
     "react-jsonschema-form": "^1.0.3",
-    "unibeautify": "^0.15.0"
+    "unibeautify": "^0.16.0"
   },
   "devDependencies": {
     "@types/history": "4.7.0",
