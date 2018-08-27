@@ -5,7 +5,7 @@
   "main": "./build/bundle.js",
   "dependencies": {
     "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
+    "babel-loader": "^8.0.0",
     "font-awesome": "^4.7.0",
     "html-webpack-plugin": "^3.2.0",
     "lodash": "^4.17.10",
