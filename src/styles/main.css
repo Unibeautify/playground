@@ -85,6 +85,7 @@ form .form-group label input[type="checkbox"] {
 
 .col-options {
   overflow-y: scroll;
+  height: 100%;
 }
 
 .form-group.field-array .row {
