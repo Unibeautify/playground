@@ -43,7 +43,7 @@
     "source-map-loader": "0.2.4",
     "style-loader": "0.23.1",
     "typescript": "3.3.3",
-    "webpack": "4.29.3",
+    "webpack": "4.29.4",
     "webpack-cli": "3.2.3",
     "webpack-dev-server": "3.1.14",
     "webpack-merge": "4.2.1"
