@@ -27,7 +27,7 @@
     "@types/react-codemirror": "1.0.2",
     "@types/react-copy-to-clipboard": "4.2.6",
     "@types/react-dom": "16.8.4",
-    "@types/react-jsonschema-form": "1.6.0",
+    "@types/react-jsonschema-form": "1.6.1",
     "@types/react-router-dom": "4.3.4",
     "@types/webpack-env": "1.13.9",
     "awesome-typescript-loader": "5.2.1",
