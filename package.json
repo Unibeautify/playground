@@ -37,7 +37,7 @@
     "css-loader": "3.4.2",
     "file-loader": "4.3.0",
     "postcss-loader": "3.0.0",
-    "react-hot-loader": "4.12.18",
+    "react-hot-loader": "4.12.19",
     "react-router-dom": "5.1.2",
     "sass-loader": "8.0.2",
     "source-map-loader": "0.2.4",
