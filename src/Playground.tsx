@@ -55,6 +55,7 @@ export class Playground extends React.Component<
 console.log('Hello World');
 }`,
       beautifiedText: "",
+      ...props.defaultState,	
     };
   }
 
