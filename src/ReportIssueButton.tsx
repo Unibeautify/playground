@@ -21,6 +21,7 @@ export class ReportIssueButton extends React.PureComponent<
           target="_blank"
           href={url}
         >
+          <i className="fa fa-bug" />{' '}
           Report {beautifiers} Issue
         </Button>
       );
@@ -30,6 +31,7 @@ export class ReportIssueButton extends React.PureComponent<
     )} to report a specific issue. This is required to narrow down where the problem is.`;
     return (
       <Button title={message} href="#" onClick={() => alert(message)}>
+        <i className="fa fa-bug" />{' '}
         Report an issue
       </Button>
     );
