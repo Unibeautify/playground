@@ -102,6 +102,10 @@ form .form-group label input[type="checkbox"] {
   height: 100%;
 }
 
+.navbar {
+  z-index: 1;
+}
+
 .nav-item .btn {
   margin-right: 0.5rem;
 }

@@ -23,10 +23,12 @@ import {
 } from "./types";
 import { Nav } from "../Nav";
 
+const websiteBaseUrl = 'https://unibeautify.com/docs';
+
 export class Playground extends React.Component<
   PlaygroundProps,
   PlaygroundState
-> {
+  > {
   private throttleDelay: number = 5000;
 
   constructor(props: PlaygroundProps) {
@@ -328,14 +330,33 @@ console.log('Hello World');
     const { language } = this;
     const languageOptions: OptionsRegistry = language ? language.options : {};
     return _.mapValues(languageOptions, (option, key) => {
+      const docsUrl = this.docsUrlForOption(key, option.title, language?.name);
       const ui: UiSchema = {
-        "ui:help": option.description,
+        "ui:help": (<div>
+          <a href={docsUrl} target="_blank" title={`Open docs for ${option.title || this.optionKeyToTitle(key)}`}>
+            <i className="fa fa-external-link"></i>
+          </a> {option.description}
+        </div>)
       };
       if (option.type === "integer") {
         ui["ui:widget"] = "updown";
       }
       return ui;
     });
+  }
+
+  private docsUrlForOption(
+    key: string,
+    optionTitle: string | undefined,
+    languageName?: string
+  ): string {
+    const title: string = optionTitle || this.optionKeyToTitle(key);
+    const docId = `option-${slugify(title)}`;
+    const url = new URL(`${websiteBaseUrl}/${docId}`);
+    if (languageName) {
+      url.searchParams.set('language', slugify(languageName));
+    }
+    return url.toString();
   }
 
   private optionKeyToTitle(key: string): string {
@@ -384,4 +405,15 @@ interface PlaygroundProps {
   support: SupportResponse;
   defaultState: Partial<PlaygroundState>;
   replaceHash(hash: string): void;
+}
+
+export function slugify(title: string): string {
+  return encodeURIComponent(
+    title
+      .toLowerCase()
+      .replace("c#", "csharp")
+      .replace("c++", "cpp")
+      .replace(/ /g, "-")
+      .replace(/\+/g, "-")
+  );
 }

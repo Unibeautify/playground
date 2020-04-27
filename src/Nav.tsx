@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as GitHubButton from "react-github-button";
 import * as CopyToClipboard from "react-copy-to-clipboard";
+import "bootstrap/js/dist/collapse";
 
 import { homepage } from "../package.json";
 import { ReportIssueButton } from "./ReportIssueButton";
@@ -27,14 +28,52 @@ export class Nav extends React.Component<NavProps, {}> {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
+              <a
+                className="btn btn-outline-info my-2 my-sm-0"
+                type="button"
+                title="Open the Unibeautify configuration assistant"
+                href={"https://assistant.unibeautify.com/#/setup"}
+                target="_blank"
+              >
+                <i className="fa fa-info" /> Config Assistant
+              </a>
+            </li>
+            {/* <li className="nav-item">
+              <a
+                className="btn btn-outline-info my-2 my-sm-0"
+                type="button"
+                href={"https://unibeautify.com/docs/config-file"}
+                target="_blank"
+                title="Learn how to create configuration file"
+              >
+                <i className="fa fa-question" />{' '}
+                How to create config file
+              </a>
+            </li> */}
+            <li className="nav-item">
               <CopyToClipboard text={window.location.href}>
                 <button
                   className="btn btn-outline-primary my-2 my-sm-0"
-                  type="submit"
+                  type="button"
                   title="Copy link to current playground configuration"
                 >
-                  Copy Link
+                  <i className="fa fa-clipboard" /> Copy Link
                 </button>
+              </CopyToClipboard>
+            </li>
+            <li className="nav-item">
+              <CopyToClipboard
+                text={JSON.stringify(this.props.state.options, null, 2)}
+              >
+                <a
+                  className="btn btn-outline-success my-2 my-sm-0"
+                  type="button"
+                  title="Export configuration as JSON into clipboard"
+                  href={"https://unibeautify.com/docs/config-file"}
+                  target="_blank"
+                >
+                  <i className="fa fa-sliders" /> Copy config JSON
+                </a>
               </CopyToClipboard>
             </li>
             <li className="nav-item">
@@ -45,10 +84,10 @@ export class Nav extends React.Component<NavProps, {}> {
             <a
               href={homepage}
               target="_blank"
-              className="btn btn-outline-info my-2 my-sm-0 mr-2"
+              className="btn btn-outline-dark my-2 my-sm-0 mr-2"
               title="Contribute to playground"
             >
-              Contribute
+              <i className="fa fa-code" /> Contribute
             </a>
             <GitHubButton
               type="stargazers"
