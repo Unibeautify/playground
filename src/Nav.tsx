@@ -35,8 +35,7 @@ export class Nav extends React.Component<NavProps, {}> {
                 href={"https://assistant.unibeautify.com/#/setup"}
                 target="_blank"
               >
-                <i className="fa fa-info" />{' '}
-                Config Assistant
+                <i className="fa fa-info" /> Config Assistant
               </a>
             </li>
             {/* <li className="nav-item">
@@ -58,13 +57,14 @@ export class Nav extends React.Component<NavProps, {}> {
                   type="button"
                   title="Copy link to current playground configuration"
                 >
-                  <i className="fa fa-clipboard" />{' '}
-                  Copy Link
+                  <i className="fa fa-clipboard" /> Copy Link
                 </button>
               </CopyToClipboard>
             </li>
             <li className="nav-item">
-              <CopyToClipboard text={JSON.stringify(this.props.state.options, null, 2)}>
+              <CopyToClipboard
+                text={JSON.stringify(this.props.state.options, null, 2)}
+              >
                 <a
                   className="btn btn-outline-success my-2 my-sm-0"
                   type="button"
@@ -72,8 +72,7 @@ export class Nav extends React.Component<NavProps, {}> {
                   href={"https://unibeautify.com/docs/config-file"}
                   target="_blank"
                 >
-                  <i className="fa fa-sliders" />{' '}
-                  Copy config JSON
+                  <i className="fa fa-sliders" /> Copy config JSON
                 </a>
               </CopyToClipboard>
             </li>
@@ -88,8 +87,7 @@ export class Nav extends React.Component<NavProps, {}> {
               className="btn btn-outline-dark my-2 my-sm-0 mr-2"
               title="Contribute to playground"
             >
-              <i className="fa fa-code" />{' '}
-              Contribute
+              <i className="fa fa-code" /> Contribute
             </a>
             <GitHubButton
               type="stargazers"
