@@ -2,7 +2,10 @@ import * as React from "react";
 import * as _ from "lodash";
 import { PlaygroundState } from "./Playground/types";
 
-export class ReportIssueButton extends React.PureComponent<ReportIssueButtonProps, {}> {
+export class ReportIssueButton extends React.PureComponent<
+  ReportIssueButtonProps,
+  {}
+> {
   public render() {
     const { beautifiers } = this;
     if (beautifiers.length === 0) {
@@ -22,15 +25,11 @@ export class ReportIssueButton extends React.PureComponent<ReportIssueButtonProp
         </Button>
       );
     }
-    const message = `Please select only 1 beautifier from ${beautifiers.join(' or ')} to report a specific issue. This is required to narrow down where the problem is.`;
+    const message = `Please select only 1 beautifier from ${beautifiers.join(
+      " or "
+    )} to report a specific issue. This is required to narrow down where the problem is.`;
     return (
-      <Button
-        title={message}
-        href="#"
-        onClick={() =>
-          alert(message)
-        }
-      >
+      <Button title={message} href="#" onClick={() => alert(message)}>
         Report an issue
       </Button>
     );
@@ -45,26 +44,22 @@ export class ReportIssueButton extends React.PureComponent<ReportIssueButtonProp
     const { options, languageName } = state;
     return options[languageName] || {};
   }
-
 }
 
 export interface ReportIssueButtonProps {
   state: PlaygroundState;
 }
 
-const Button = (props: JSX.IntrinsicElements['a']) => (
-  <a
-    className="btn btn-outline-danger my-2 my-sm-0"
-    type="button"
-    {...props}
-  />
+const Button = (props: JSX.IntrinsicElements["a"]) => (
+  <a className="btn btn-outline-danger my-2 my-sm-0" type="button" {...props} />
 );
 
 function createIssueUrl(beautifier: string, body: string): string {
-  const beautifierProject = beautifierProjects[beautifier] || "Unibeautify/playground";
+  const beautifierProject =
+    beautifierProjects[beautifier] || "Unibeautify/playground";
   const url = new URL(`https://github.com/${beautifierProject}/issues/new`);
-  url.searchParams.set('title', '');
-  url.searchParams.set('body', body);
+  url.searchParams.set("title", "");
+  url.searchParams.set("body", body);
   return url.toString();
 }
 
@@ -86,13 +81,16 @@ ${JSON.stringify(shortOptions, null, 2)}
 ${state.originalText}
 \`\`\`
 
-${state.error ? (
-      `**Error**:
+${
+    state.error
+      ? `**Error**:
 \`\`\`
 ${state.error}
 \`\`\`
 
-`) : ''}
+`
+      : ""
+  }
 **Output**:
 \`\`\`
 ${state.beautifiedText}
@@ -100,13 +98,13 @@ ${state.beautifiedText}
 
 **Expected behavior:**
 
-`
+`;
 }
 
-const beautifierProjects: { [beautifierName: string]: string; } = {
-  "Prettier": "Unibeautify/beautifier-prettier",
+const beautifierProjects: { [beautifierName: string]: string } = {
+  Prettier: "Unibeautify/beautifier-prettier",
   "Pretty Diff": "Unibeautify/beautifier-prettydiff",
   "JS-Beautify": "Unibeautify/beautifier-js-beautify",
-  "ESLint": "Unibeautify/beautifier-eslint",
+  ESLint: "Unibeautify/beautifier-eslint",
   "PHP-CS-Fixer": "Unibeautify/beautifier-php-cs-fixer",
 };
