@@ -14,6 +14,9 @@ require("react-github-button/assets/style.css");
 
 import ApiClient, { SupportResponse } from "./ApiClient";
 import { Playground } from "./Playground";
+import { homepage } from "../package.json";
+import { ReportIssueButton } from "./ReportIssueButton";
+import { Nav } from "./Nav";
 
 const apiUrl: string =
   "https://ntd6xp2n56.execute-api.us-east-1.amazonaws.com/dev/playground";
@@ -75,71 +78,6 @@ export class Container extends React.Component<ContainerProps, ContainerState> {
   }
 
   public render() {
-    return (
-      <div>
-        {this.renderNav()}
-        <div className="container-fluid">{this.renderBody()}</div>
-      </div>
-    );
-  }
-
-  private renderNav() {
-    return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">
-          Unibeautify Playground
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon" />
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <CopyToClipboard text={window.location.href}>
-                <button
-                  className="btn btn-outline-primary my-2 my-sm-0"
-                  type="submit"
-                >
-                  Copy Link
-                </button>
-              </CopyToClipboard>
-            </li>
-            <li className="nav-item">
-              <button
-                className="btn btn-outline-danger my-2 my-sm-0"
-                type="submit"
-                onClick={() =>
-                  alert(
-                    "Not yet implemented. Please go to https://github.com/Unibeautify/playground/issues/4 for details."
-                  )
-                }
-              >
-                Report Issue
-              </button>
-            </li>
-          </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <GitHubButton
-              type="stargazers"
-              size="large"
-              namespace="unibeautify"
-              repo="unibeautify"
-            />
-          </form>
-        </div>
-      </nav>
-    );
-  }
-
-  private renderBody() {
     if (!this.state.support) {
       return <div className="">Loading...</div>;
     }

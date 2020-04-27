@@ -15,7 +15,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.2",
     "react-github-button": "^0.1.11",
-    "react-jsonschema-form": "^1.0.4",
+    "react-jsonschema-form": "^1.8.1",
     "unibeautify": "^0.17.0"
   },
   "devDependencies": {

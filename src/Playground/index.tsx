@@ -1,15 +1,14 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
-import Unibeautify, {
+import {
   Language,
   BeautifyData,
   OptionsRegistry,
 } from "unibeautify";
 import * as CodeMirror from "react-codemirror";
 import * as _ from "lodash";
-import Form, { FormProps, IChangeEvent, UiSchema } from "react-jsonschema-form";
+import Form, { IChangeEvent, UiSchema } from "react-jsonschema-form";
 import * as LZString from "lz-string";
-import { History } from "history";
+import { JSONSchema6 } from "json-schema";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
@@ -19,8 +18,9 @@ require("codemirror/mode/css/css");
 require("codemirror/mode/markdown/markdown");
 require("codemirror/mode/php/php");
 
-import ApiClient, { SupportResponse, LanguageWithOptions } from "./ApiClient";
-import { JSONSchema6 } from "json-schema";
+import ApiClient, { SupportResponse, LanguageWithOptions } from "../ApiClient";
+import { PlaygroundState, PlaygroundStatus, PlaygroundOptions, LanguageOptions } from "./types";
+import { Nav } from "../Nav";
 
 export class Playground extends React.Component<
   PlaygroundProps,
@@ -35,20 +35,11 @@ export class Playground extends React.Component<
     });
   }
 
-  state = this.initState(this.props);
+  state: PlaygroundState = this.initState(this.props);
 
-  private initState(props: PlaygroundProps) {
+  private initState(props: PlaygroundProps): PlaygroundState {
     return {
-      languages: props.support.languages,
-      options: props.support.languages.reduce(
-        (options: object, language: LanguageWithOptions) => ({
-          ...options,
-          [language.name]: {
-            beautifiers: language.beautifiers,
-          },
-        }),
-        {} as any
-      ),
+      options: this.optionsFromLanguages(props.support.languages),
       status: PlaygroundStatus.Init,
       languageName: "JavaScript",
       originalText: `function helloWorld() {
@@ -57,6 +48,18 @@ console.log('Hello World');
       beautifiedText: "",
       ...props.defaultState,	
     };
+  }
+
+  private optionsFromLanguages(languages: PlaygroundProps['support']['languages']): PlaygroundOptions {
+    return languages.reduce(
+      (options, language: LanguageWithOptions) => ({
+        ...options,
+        [language.name]: {
+          beautifiers: language.beautifiers,
+        },
+      }),
+      {} as PlaygroundOptions
+    );
   }
 
   public componentDidMount() {
@@ -71,53 +74,58 @@ console.log('Hello World');
   public render() {
     const log = (type: string) => console.log.bind(console, type);
     const { codeMirrorMode } = this;
-    const { languageName, originalText, beautifiedText, options } = this.state;
+    const { languageName, originalText, beautifiedText } = this.state;
     return (
-      <div className="row playground">
-        <div className="col-options col-sm-3">
-          <Form
-            schema={this.jsonSchema}
-            uiSchema={this.uiSchema}
-            formData={this.langOptions(languageName)}
-            onChange={this.onChangeOptions.bind(this)}
-            onError={log("errors")}
-          >
-            <p />
-          </Form>
-        </div>
-        <div className="col-sm-9">
-          <div className="row">
-            <div className="col-sm-6">
-              <div>{this.renderLanguageSelect()}</div>
+      <>
+        <Nav state={this.state} />
+        <div className="container-fluid">
+          <div className="row playground">
+            <div className="col-options col-sm-3">
+              <Form
+                schema={this.jsonSchema}
+                uiSchema={this.uiSchema}
+                formData={this.langOptions(languageName)}
+                onChange={this.onChangeOptions.bind(this)}
+                onError={log("errors")}
+              >
+                <p />
+              </Form>
             </div>
-            <div className="col-sm-6">
-              <div>{this.renderStatus()}</div>
+            <div className="col-sm-9 pl-0">
+              <div className="row">
+                <div className="col-sm-6">
+                  <div>{this.renderLanguageSelect()}</div>
+                </div>
+                <div className="col-sm-6">
+                  <div>{this.renderStatus()}</div>
+                </div>
+              </div>
+              <div className="row" style={{ height: "100%" }}>
+                <div className="col-sm-6">
+                  <CodeMirror
+                    value={originalText}
+                    onChange={this.onChangeText.bind(this)}
+                    options={{
+                      lineNumbers: true,
+                      mode: codeMirrorMode,
+                    }}
+                  />
+                </div>
+                <div className="col-sm-6">
+                  <CodeMirror
+                    key={beautifiedText}
+                    value={beautifiedText}
+                    options={{
+                      lineNumbers: true,
+                      mode: codeMirrorMode,
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="row" style={{ height: "100%" }}>
-            <div className="col-sm-6">
-              <CodeMirror
-                value={originalText}
-                onChange={this.onChangeText.bind(this)}
-                options={{
-                  lineNumbers: true,
-                  mode: codeMirrorMode,
-                }}
-              />
-            </div>
-            <div className="col-sm-6">
-              <CodeMirror
-                key={beautifiedText}
-                value={beautifiedText}
-                options={{
-                  lineNumbers: true,
-                  mode: codeMirrorMode,
-                }}
-              />
-            </div>
-          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -160,7 +168,10 @@ console.log('Hello World');
   }
 
   private renderStatus() {
-    return <div className="lead">{this.statusMessage}</div>;
+    return <div
+      className="lead status"
+      title={this.statusMessage}
+    >{this.statusMessage}</div>;
   }
 
   private get languageNames(): string[] {
@@ -179,7 +190,7 @@ console.log('Hello World');
     return this.state.languageName;
   }
 
-  private onChangeOptions(changeEvent: IChangeEvent): void {
+  private onChangeOptions(changeEvent: IChangeEvent<LanguageOptions>): void {
     const { languageName } = this.state;
     const { formData } = changeEvent;
     this.setState(prevState => ({
@@ -221,15 +232,19 @@ console.log('Hello World');
     this.updateHash();
     return this.client
       .beautify(this.beautifyPayload)
-      .then(({ beautifiedText }) => {
-        this.setState(prevState => ({
-          ...prevState,
-          status: PlaygroundStatus.Beautified,
-          beautifiedText,
-        }));
+      .then(({ beautifiedText, error }) => {
+        if (error) {
+          this.setError(error);
+        } else {
+          this.setState(prevState => ({
+            ...prevState,
+            status: PlaygroundStatus.Beautified,
+            beautifiedText,
+          }));
+        }
       })
       .catch(error => {
-        this.setStatus(PlaygroundStatus.BeautifierError);
+        this.setError(error);
       });
   }
 
@@ -242,7 +257,8 @@ console.log('Hello World');
   }
 
   private get statusMessage(): string {
-    switch (this.state.status) {
+    const { state } = this;
+    switch (state.status) {
       case PlaygroundStatus.Init:
         return "Initializing!";
       case PlaygroundStatus.Sending:
@@ -251,9 +267,19 @@ console.log('Hello World');
         return "Beautified!";
       case PlaygroundStatus.BeautifyRequested:
         return `Waiting for a pause (~${this.throttleDelay / 1000} seconds)...`;
+      case PlaygroundStatus.BeautifierError:
+        return `Beautify error: ${state.error}`;
       default:
         return "Waiting";
     }
+  }
+
+  private setError(error: string): void {
+    this.setState(prevState => ({
+        ...prevState,
+        status: PlaygroundStatus.BeautifierError,
+        error,
+    }));
   }
 
   private setStatus(newStatus: PlaygroundStatus): void {
@@ -263,7 +289,7 @@ console.log('Hello World');
     }));
   }
 
-  private langOptions(languageName: string): BeautifyData["options"][string] {
+  private langOptions(languageName: string): LanguageOptions {
     return this.state.options[languageName] || {};
   }
 
@@ -354,25 +380,4 @@ interface PlaygroundProps {
   support: SupportResponse;
   defaultState: Partial<PlaygroundState>;
   replaceHash(hash: string): void;
-}
-
-interface PlaygroundState {
-  status: PlaygroundStatus;
-  languageName: string;
-  options: {
-    [languageName: string]: BeautifyData["options"];
-  };
-  originalText: string;
-  beautifiedText: string;
-}
-
-enum PlaygroundStatus {
-  Init,
-  LoadingSupport,
-  SupportLoaded,
-  BeautifierError,
-  OptionsError,
-  BeautifyRequested,
-  Sending,
-  Beautified,
 }
