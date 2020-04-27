@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  Language,
-  BeautifyData,
-  OptionsRegistry,
-} from "unibeautify";
+import { Language, BeautifyData, OptionsRegistry } from "unibeautify";
 import * as CodeMirror from "react-codemirror";
 import * as _ from "lodash";
 import Form, { IChangeEvent, UiSchema } from "react-jsonschema-form";
@@ -19,7 +15,12 @@ require("codemirror/mode/markdown/markdown");
 require("codemirror/mode/php/php");
 
 import ApiClient, { SupportResponse, LanguageWithOptions } from "../ApiClient";
-import { PlaygroundState, PlaygroundStatus, PlaygroundOptions, LanguageOptions } from "./types";
+import {
+  PlaygroundState,
+  PlaygroundStatus,
+  PlaygroundOptions,
+  LanguageOptions,
+} from "./types";
 import { Nav } from "../Nav";
 
 export class Playground extends React.Component<
@@ -46,11 +47,13 @@ export class Playground extends React.Component<
 console.log('Hello World');
 }`,
       beautifiedText: "",
-      ...props.defaultState,	
+      ...props.defaultState,
     };
   }
 
-  private optionsFromLanguages(languages: PlaygroundProps['support']['languages']): PlaygroundOptions {
+  private optionsFromLanguages(
+    languages: PlaygroundProps["support"]["languages"]
+  ): PlaygroundOptions {
     return languages.reduce(
       (options, language: LanguageWithOptions) => ({
         ...options,
@@ -168,10 +171,11 @@ console.log('Hello World');
   }
 
   private renderStatus() {
-    return <div
-      className="lead status"
-      title={this.statusMessage}
-    >{this.statusMessage}</div>;
+    return (
+      <div className="lead status" title={this.statusMessage}>
+        {this.statusMessage}
+      </div>
+    );
   }
 
   private get languageNames(): string[] {
@@ -276,9 +280,9 @@ console.log('Hello World');
 
   private setError(error: string): void {
     this.setState(prevState => ({
-        ...prevState,
-        status: PlaygroundStatus.BeautifierError,
-        error,
+      ...prevState,
+      status: PlaygroundStatus.BeautifierError,
+      error,
     }));
   }
 
