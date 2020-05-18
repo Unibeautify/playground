@@ -20,7 +20,7 @@
     "unibeautify": "^0.17.0"
   },
   "devDependencies": {
-    "@types/history": "4.7.5",
+    "@types/history": "4.7.6",
     "@types/lodash": "4.14.151",
     "@types/lz-string": "1.3.33",
     "@types/node": "10.12.24",
