@@ -82,15 +82,15 @@ ${state.originalText}
 \`\`\`
 
 ${
-    state.error
-      ? `**Error**:
+  state.error
+    ? `**Error**:
 \`\`\`
 ${state.error}
 \`\`\`
 
 `
-      : ""
-  }
+    : ""
+}
 **Output**:
 \`\`\`
 ${state.beautifiedText}

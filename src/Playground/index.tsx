@@ -23,12 +23,12 @@ import {
 } from "./types";
 import { Nav } from "../Nav";
 
-const websiteBaseUrl = 'https://unibeautify.com/docs';
+const websiteBaseUrl = "https://unibeautify.com/docs";
 
 export class Playground extends React.Component<
   PlaygroundProps,
   PlaygroundState
-  > {
+> {
   private throttleDelay: number = 5000;
 
   constructor(props: PlaygroundProps) {
@@ -332,11 +332,20 @@ console.log('Hello World');
     return _.mapValues(languageOptions, (option, key) => {
       const docsUrl = this.docsUrlForOption(key, option.title, language?.name);
       const ui: UiSchema = {
-        "ui:help": (<div>
-          <a href={docsUrl} target="_blank" title={`Open docs for ${option.title || this.optionKeyToTitle(key)}`}>
-            <i className="fa fa-external-link"></i>
-          </a> {option.description}
-        </div>)
+        "ui:help": (
+          <div>
+            <a
+              href={docsUrl}
+              target="_blank"
+              title={`Open docs for ${
+                option.title || this.optionKeyToTitle(key)
+              }`}
+            >
+              <i className="fa fa-external-link"></i>
+            </a>{" "}
+            {option.description}
+          </div>
+        ),
       };
       if (option.type === "integer") {
         ui["ui:widget"] = "updown";
@@ -354,16 +363,13 @@ console.log('Hello World');
     const docId = `option-${slugify(title)}`;
     const url = new URL(`${websiteBaseUrl}/${docId}`);
     if (languageName) {
-      url.searchParams.set('language', slugify(languageName));
+      url.searchParams.set("language", slugify(languageName));
     }
     return url.toString();
   }
 
   private optionKeyToTitle(key: string): string {
-    return key
-      .split("_")
-      .map(_.capitalize)
-      .join(" ");
+    return key.split("_").map(_.capitalize).join(" ");
   }
 
   private get language(): LanguageWithOptions | undefined {
