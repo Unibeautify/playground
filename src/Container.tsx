@@ -19,7 +19,7 @@ import { ReportIssueButton } from "./ReportIssueButton";
 import { Nav } from "./Nav";
 
 const apiUrl: string =
-  "https://ntd6xp2n56.execute-api.us-east-1.amazonaws.com/dev/playground";
+  "https://z446o1y0w8.execute-api.us-east-1.amazonaws.com/prod/playground";
 
 (window as any).Unibeautify = Unibeautify;
 
