@@ -247,13 +247,19 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@16.14.4", "@types/react@^16":
-  version "16.14.4"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.14.4.tgz"
-  integrity sha512-ETj7GbkPGjca/A4trkVeGvoIakmLV6ZtX3J8dcmOpzKzWVybbrOxanwaIPG71GZwImoMDY6Fq4wIe34lEqZ0FQ==
+"@types/react@*", "@types/react@16.14.5", "@types/react@^16":
+  version "16.14.5"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.14.5.tgz"
+  integrity sha512-YRRv9DNZhaVTVRh9Wmmit7Y0UFhEVqXqCSw3uazRWMxa2x85hWQZ5BN24i7GXZbaclaLXEcodEeIHsjBA8eAMw==
   dependencies:
     "@types/prop-types" "*"
+    "@types/scheduler" "*"
     csstype "^3.0.2"
+
+"@types/scheduler@*":
+  version "0.16.1"
+  resolved "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.1.tgz"
+  integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
 
 "@types/tapable@*":
   version "1.0.4"
