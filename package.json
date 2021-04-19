@@ -11,10 +11,10 @@
     "jquery": "3.4.1",
     "lodash": "^4.17.10",
     "lz-string": "^1.4.4",
-    "react": "^16.4.2",
+    "react": "^16.14.0",
     "react-codemirror": "^1.0.0",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.14.0",
     "react-github-button": "^0.1.11",
     "react-jsonschema-form": "^1.8.1",
     "unibeautify": "^0.17.0"
