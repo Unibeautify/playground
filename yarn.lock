@@ -247,10 +247,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@16.14.5", "@types/react@^16":
-  version "16.14.5"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.14.5.tgz"
-  integrity sha512-YRRv9DNZhaVTVRh9Wmmit7Y0UFhEVqXqCSw3uazRWMxa2x85hWQZ5BN24i7GXZbaclaLXEcodEeIHsjBA8eAMw==
+"@types/react@*", "@types/react@16.14.6", "@types/react@^16":
+  version "16.14.6"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.14.6.tgz"
+  integrity sha512-Ol/aFKune+P0FSFKIgf+XbhGzYGyz0p7g5befSt4rmbzfGLaZR0q7jPew9k7d3bvrcuaL8dPy9Oz3XGZmf9n+w==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
