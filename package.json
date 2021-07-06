@@ -30,7 +30,7 @@
     "@types/react-dom": "16.9.13",
     "@types/react-jsonschema-form": "1.7.5",
     "@types/react-router-dom": "5.1.7",
-    "@types/webpack-env": "1.16.0",
+    "@types/webpack-env": "1.16.2",
     "awesome-typescript-loader": "5.2.1",
     "bootstrap": "4.6.0",
     "bootstrap-loader": "3.0.4",
