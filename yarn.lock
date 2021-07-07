@@ -190,10 +190,10 @@
   resolved "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.3.tgz"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*", "@types/node@10.17.60":
-  version "10.17.60"
-  resolved "https://registry.npmjs.org/@types/node/-/node-10.17.60.tgz"
-  integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
+"@types/node@*", "@types/node@14.17.5":
+  version "14.17.5"
+  resolved "https://registry.npmjs.org/@types/node/-/node-14.17.5.tgz"
+  integrity sha512-bjqH2cX/O33jXT/UmReo2pM7DIJREPMnarixbQ57DOOzzFaI6D2+IcwaJQaJpv0M1E9TIhPCYVxrkcityLjlqA==
 
 "@types/prop-types@*":
   version "15.7.3"
@@ -3563,9 +3563,9 @@ nanomatch@^1.2.9:
     to-regex "^3.0.1"
 
 needle@^2.2.1:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/needle/-/needle-2.7.0.tgz#90e020b9a1e33253fcf009d22927b130c8b2fd8b"
-  integrity sha512-b4f4JgOl7GZVM1p+xuWBAsHwflng1s2yOu9lOThKAzULRW7eqSFYfN4gbuUFOMuE0hVAPWJnSz/90LMOlEGErw==
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/needle/-/needle-2.8.0.tgz#1c8ef9c1a2c29dcc1e83d73809d7bc681c80a048"
+  integrity sha512-ZTq6WYkN/3782H1393me3utVYdq2XyqNUFBsprEE3VMAT0+hP/cItpnITpqsY6ep2yeFE4Tqtqwc74VqUlUYtw==
   dependencies:
     debug "^3.2.6"
     iconv-lite "^0.4.4"
