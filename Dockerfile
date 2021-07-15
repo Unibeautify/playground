@@ -1,4 +1,4 @@
-FROM node:7-alpine@sha256:4954ce53247180e207772f936223b11d52a7e4ee712dfe73fe2a75e39f785067
+FROM node:16-alpine@sha256:50b33102c307e04f73817dad87cdae145b14782875495ddd950b5a48e4937c70
 MAINTAINER Glavin Wiechert <glavin.wiechert@gmail.com>
 
 # Defines our working directory in container
