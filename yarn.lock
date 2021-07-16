@@ -175,10 +175,10 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.4.tgz"
   integrity sha512-8+KAKzEvSUdeo+kmqnKrqgeE+LcA0tjYWFY7RPProVYwnqDjukzO+3b6dLD56rYX5TdWejnEOLJYOIeh4CXKuA==
 
-"@types/lodash@4.14.170":
-  version "4.14.170"
-  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.170.tgz"
-  integrity sha512-bpcvu/MKHHeYX+qeEN8GE7DIravODWdACVA1ctevD8CN24RhPZIKMn9ntfAsrvLfSX3cR5RrBKAbYm9bGs0A+Q==
+"@types/lodash@4.14.171":
+  version "4.14.171"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.171.tgz"
+  integrity sha512-7eQ2xYLLI/LsicL2nejW9Wyko3lcpN6O/z0ZLHrEQsg280zIdCv1t/0m6UtBjUHokCGBQ3gYTbHzDkZ1xOBwwg==
 
 "@types/lz-string@1.3.34":
   version "1.3.34"
