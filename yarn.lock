@@ -222,10 +222,10 @@
   dependencies:
     "@types/react" "^16"
 
-"@types/react-jsonschema-form@1.7.5":
-  version "1.7.5"
-  resolved "https://registry.npmjs.org/@types/react-jsonschema-form/-/react-jsonschema-form-1.7.5.tgz"
-  integrity sha512-Ovhmu9WOAHee0GNCncNiTRtUmrVZgj8vkdEwc3f0CgvkNIYss9ucQ1F6TNLuakXumAg25P1zGgeCqr37iJo5FQ==
+"@types/react-jsonschema-form@1.7.6":
+  version "1.7.6"
+  resolved "https://registry.npmjs.org/@types/react-jsonschema-form/-/react-jsonschema-form-1.7.6.tgz"
+  integrity sha512-gkMH2ZEHH8+7EoZRhA4F2NSqO8zlcXrepMYExHRZ8nGynzBQdmp6vHryEiOSEysowVHTHCP7wLPOWhIHx3tMPg==
   dependencies:
     "@types/json-schema" "*"
     "@types/react" "*"
