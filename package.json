@@ -29,7 +29,7 @@
     "@types/react-copy-to-clipboard": "4.3.0",
     "@types/react-dom": "16.9.14",
     "@types/react-jsonschema-form": "1.7.6",
-    "@types/react-router-dom": "5.1.7",
+    "@types/react-router-dom": "5.1.8",
     "@types/webpack-env": "1.16.2",
     "awesome-typescript-loader": "5.2.1",
     "bootstrap": "4.6.0",
