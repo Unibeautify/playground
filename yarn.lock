@@ -205,10 +205,10 @@
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.3.tgz"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
-"@types/react-codemirror@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/@types/react-codemirror/-/react-codemirror-1.0.5.tgz"
-  integrity sha512-PV0jbno1QQ+fGgqnYJ+3HqlTvzkW72YVXuO/18Zs7TJnrLQhh6ZBSg2Wzk5OtODqMavuXzk33gt84ThKgbMNyQ==
+"@types/react-codemirror@1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@types/react-codemirror/-/react-codemirror-1.0.11.tgz#b829b755a3b16da9ba81910c93c1c96015105db6"
+  integrity sha512-s+CuODR/fjivi0YjMvnkVPS7Ugh7jxbMXgl1R7rDS8amwZENb1awbnbKU79DLsEYrNbs3R2kVWvjTFLSZVy1/Q==
   dependencies:
     "@types/codemirror" "*"
     "@types/react" "*"
